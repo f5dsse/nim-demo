@@ -3,6 +3,7 @@
 ## Requirements:
 Requires Ubuntu, tested on 20.04
 
+## Installation
 Clone this repository:
 
 ```bash
@@ -51,6 +52,12 @@ Congratulations, NGINX Instance Manager is set up.
 ## Testing
 
 Scripts are provided to quickly spin up managed and unmanaged instances for testing using LXC: 
+
+First init LXD (just press enter through all the prompts):
+
+```bash
+lxd init
+```
 
 Start an unmanaged OSS instance:
 
