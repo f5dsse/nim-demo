@@ -1,5 +1,5 @@
 #!/bin/bash
-release=${1:-focal}
+release=${2:-focal}
 name=$(lxc launch ubuntu:$release | grep name | awk '{print $NF}')
 lxc exec $name -- bash -c "mkdir -p /root/.ssh"
 lxc file push $HOME/.ssh/id_rsa.pub $name/root/.ssh/authorized_keys
@@ -14,6 +14,6 @@ lxc exec $name -- /bin/bash -c "
   apt-get -y update && \
   apt-get -y install nginx && \
   systemctl start nginx && \
-  curl -k https://172.22.62.89/install/nginx-agent | bash -s -- --instance-group nginx-oss && \
+  curl -k https://172.22.62.89/install/nginx-agent | bash -s -- --instance-group $1 && \
   systemctl start nginx-agent
 "

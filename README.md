@@ -71,6 +71,12 @@ Start a managed OSS instance:
 scripts/oss-agent
 ```
 
+Start a managed OSS instance and add it to an instance group:
+
+```bash
+scripts/oss-agent <instance group name>
+```
+
 Start an unmanaged Plus instance:
 
 ```bash
@@ -81,6 +87,12 @@ Start a managed Plus instance:
 
 ```bash
 scripts/plus-agent
+```
+
+Start a managed Plus instance and add it to an instance group:
+
+```bash
+scripts/plus-agent <instance group name>
 ```
 
 To scan for instances created via these scripts, find the CIDR of the container bridge network: 
