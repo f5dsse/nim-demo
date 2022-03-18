@@ -1,0 +1,17 @@
+#!/bin/bash
+release=${1:-focal}
+name=$(lxc launch ubuntu:$release | grep name | awk '{print $NF}')
+lxc exec $name -- bash -c "mkdir -p /root/.ssh"
+lxc file push $HOME/.ssh/id_rsa.pub $name/root/.ssh/authorized_keys
+lxc exec $name -- /bin/bash -c "
+  sleep 4 && \
+  chmod 600 /root/.ssh/authorized_keys && \
+  sudo chown root: /root/.ssh/authorized_keys && \
+  wget https://nginx.org/keys/nginx_signing.key && \
+  apt-key add nginx_signing.key && \
+  printf 'deb https://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx\n' | sudo tee /etc/apt/sources.list.d/nginx.list && \
+  printf 'deb-src https://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx\n' | sudo tee /etc/apt/sources.list.d/nginx.list && \
+  apt-get -y update && \
+  apt-get -y install nginx && \
+  systemctl start nginx
+"

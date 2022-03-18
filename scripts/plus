@@ -1,0 +1,20 @@
+#!/bin/bash
+release=${1:-focal}  
+name=$(lxc launch ubuntu:$release | grep name | awk '{print $NF}')
+lxc exec $name -- bash -c "mkdir -p /etc/ssl/nginx /root/.ssh"
+lxc file push ../license/nginx-repo.crt $name/etc/ssl/nginx/
+lxc file push ../license/nginx-repo.key $name/etc/ssl/nginx/
+lxc file push $HOME/.ssh/id_rsa.pub $name/root/.ssh/authorized_keys
+lxc exec $name -- bash -c " \
+  sleep 4 && \
+  chmod 600 /root/.ssh/authorized_keys && \
+  sudo chown root: /root/.ssh/authorized_keys && \
+  wget https://cs.nginx.com/static/keys/nginx_signing.key && \
+  apt-key add nginx_signing.key && \
+  apt-get install apt-transport-https lsb-release ca-certificates && \
+  printf 'deb https://pkgs.nginx.com/plus/ubuntu `lsb_release -cs` nginx-plus\n' | sudo tee /etc/apt/sources.list.d/nginx-plus.list && \
+  wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx && \
+  apt-get update && \
+  apt-get install -y nginx-plus && \
+  systemctl start nginx
+"
