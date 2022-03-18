@@ -106,7 +106,8 @@ scripts/oss xenial
 or
 
 ```bash
-scripts/oss-agent <instance group name> bionic # for the agent scripts, first parameter needs to be set to null if not specifying an instance group
+# for the agent scripts, first parameter needs to be set to null if not specifying an instance group
+scripts/oss-agent <instance group name> bionic 
 ```
 
 To scan for instances created via these scripts, find the CIDR of the container bridge network: 
