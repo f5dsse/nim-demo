@@ -95,6 +95,20 @@ Start a managed Plus instance and add it to an instance group:
 scripts/plus-agent <instance group name>
 ```
 
+## Notes
+
+You can specify the Ubuntu version of the LXC container as the last parameter of the script command, useful for showing NIM behavior for outdated NGINX versions. For instance:
+
+```bash
+scripts/oss xenial
+```
+
+or
+
+```bash
+scripts/oss-agent <instance group name> bionic # for the agent scripts, first parameter needs to be set to null if not specifying an instance group
+```
+
 To scan for instances created via these scripts, find the CIDR of the container bridge network: 
 
 ```
@@ -106,3 +120,4 @@ example output: `10.176.104.1`
 In NGINX Instance Manager, click "Instance Manager" -> Scan
 
 In the CIDR field, put the /24 network that matches your lxdbr0 gateway IP, e.g. `10.176.104.0/24`
+
