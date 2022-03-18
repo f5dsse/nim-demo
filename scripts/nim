@@ -27,7 +27,7 @@ echo "deb https://packages.clickhouse.com/deb stable main" | sudo tee \
 sudo apt-get -y update
 
 # Install NGINX Plus and ClickHouse
-sudo apt-get -y install -y nginx-plus clickhouse-server clickhouse-client
+DEBIAN_FRONTEND=noninteractive sudo apt-get -y install -y nginx-plus clickhouse-server clickhouse-client
 sudo service clickhouse-server start
 
 # Install NIM
